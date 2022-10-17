@@ -1,27 +1,35 @@
 {% extends 'events/base.html' %}
 
 {% block content %}
-    <div class="container">
     <h1>Events</h1>
-    
     {% for event in event_list %}
-        <strong>{{ event.name }}</strong>
-        <ul>
-        <li>Date: {{ event.event_date }}</li>
-        <li>Venue: {{ event.venue }}</li>
-        <li>Venue Website: {{ event.venue.web}}</li>
-        <li>Manager: {{ event.manager }}</li>
-        <li>Description: {{ event.description }}</li>
-        <li> Attendees: 
-            <ul>
-        {% for user in event.attendees.all %}
-        <li>{{ user }}</li>
-        {% endfor %}
-        </ul>
-        </ul>
+        <div class="card text-center">
+            <div class="card-header">
+            {{ event.name }}
+            </div>
+            <div class="card-body">
+                <ul>
+                    <li><h5 class="card-title"></h5>Venue: {{ event.venue }}</h5></li>
+                    <li>Date: {{ event.event_date }}</li>
+                    <li>Venue Website: {{ event.venue.web}}</li>
+                    <li>Phone: {{ event.venue.phone}}</li>
+                    <li>Manager: {{ event.manager }}</li>
+                    <li> Attendees: 
+                        <ul>
+                            {% for user in event.attendees.all %}
+                            <li>{{ user }}</li>
+                            {% endfor %}
+                    </ul>
+                </ul>
+            <p class="card-text">Description: {{ event.description }}</p>
+            </div>
+            <div class="card-footer text-muted">
+                <a href="{% url 'update-event' event.id %}" class="btn btn-outline-secondary btn-sm">Update</a>
+            </div>
+        </div>
+        
     {% endfor %}
     
-    </div>
     
 
 {% endblock %}
