@@ -7,8 +7,8 @@ from .models import Event, Venue
 from .forms import VenueForm, EventForm
 
 def update_event(request, event_id):
-    event = Venue.objects.get(pk=event_id)
-    form = VenueForm(request.POST or None, instance=event)
+    event = Event.objects.get(pk=event_id)
+    form = EventForm(request.POST or None, instance=event)
     if form.is_valid():
         form.save()
         return redirect('list-events')

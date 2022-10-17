@@ -14,3 +14,7 @@
   .p-3 {
     padding: $spacer !important;
   }
+
+    .header {
+        padding: 25px;
+    }
