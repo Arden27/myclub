@@ -10,20 +10,20 @@ class EventForm(ModelForm):
         fields = ('name', 'event_date', 'venue', 'manager', 'attendees', 'description')
         labels = {
             'name':'',
-            'event_date':'',
-            'venue':'',
-            'manager':'',
-            'attendees':'',
+            'event_date':'YYYY-MM-DD HH:MM:SS',
+            'venue':'Venue',
+            'manager':'Manager',
+            'attendees':'Attendees',
             'description':'',
         }
             
         widgets = {
             'name': forms.TextInput(attrs={'class': 'form-control', 'placeholder':'Event Name'}), 
             'event_date': forms.TextInput(attrs={'class': 'form-control', 'placeholder':'Event Date'}), 
-            'venue': forms.TextInput(attrs={'class': 'form-control', 'placeholder':'Venue'}), 
-            'manager': forms.TextInput(attrs={'class': 'form-control', 'placeholder':'Manager'}), 
-            'attendees': forms.EmailInput(attrs={'class': 'form-control', 'placeholder':'Attendees'}),
-            'description': forms.TextInput(attrs={'class': 'form-control', 'placeholder':'Decription'}), 
+            'venue': forms.Select(attrs={'class': 'form-select', 'placeholder':'Venue'}), 
+            'manager': forms.Select(attrs={'class': 'form-select', 'placeholder':'Manager'}), 
+            'attendees': forms.SelectMultiple(attrs={'class': 'form-control', 'placeholder':'Attendees'}),
+            'description': forms.Textarea(attrs={'class': 'form-control', 'placeholder':'Decription'}), 
         }
 
 class VenueForm(ModelForm):
