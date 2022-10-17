@@ -1,0 +1,27 @@
+{% extends 'events/base.html' %}
+
+{% block content %}
+    <div class="container">
+    <h1>Events</h1>
+    
+    {% for event in event_list %}
+        <strong>{{ event.name }}</strong>
+        <ul>
+        <li>Date: {{ event.event_date }}</li>
+        <li>Venue: {{ event.venue }}</li>
+        <li>Venue Website: {{ event.venue.web}}</li>
+        <li>Manager: {{ event.manager }}</li>
+        <li>Description: {{ event.description }}</li>
+        <li> Attendees: 
+            <ul>
+        {% for user in event.attendees.all %}
+        <li>{{ user }}</li>
+        {% endfor %}
+        </ul>
+        </ul>
+    {% endfor %}
+    
+    </div>
+    
+
+{% endblock %}
