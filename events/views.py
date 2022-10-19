@@ -5,6 +5,80 @@ from datetime import datetime
 from django.http import HttpResponseRedirect
 from .models import Event, Venue
 from .forms import VenueForm, EventForm
+from django.http import HttpResponse
+import csv
+# PDF imports
+from django.http import FileResponse
+import io
+from reportlab.pdfgen import canvas
+from reportlab.lib.units import inch
+from reportlab.lib.pagesizes import letter
+
+
+
+#Generate PDF
+def venue_pdf(request):
+    #create Bytestream buffer
+    buf = io.BytesIO()
+    #create canvas
+    c = canvas.Canvas(buf, pagesize=letter, bottomup=0)
+    #ctreate a text object
+    textob = c.beginText()
+    textob.setTextOrigin(inch, inch)
+    textob.setFont('Helvetica', 14)
+
+    venues = Venue.objects.all()
+
+    lines = []
+
+    for venue in venues:
+        lines.append(venue.name)
+        lines.append(venue.address)
+        lines.append(venue.zip_code)
+        lines.append(venue.phone)
+        lines.append(venue.web)
+        lines.append(venue.email_address)
+        lines.append('======================')
+
+    for line in lines:
+        textob.textLine(line)
+
+    for line in lines:
+        textob.textLine(line)
+
+    c.drawText(textob)
+    c.showPage()
+    c.save()
+    buf.seek(0)
+
+    return FileResponse(buf, as_attachment=True, filename='venues.pdf')
+    
+#Generate csv
+def venue_csv(request):
+    response = HttpResponse(content_type='text/csv')
+    response['Contnt-Disposition'] = 'attachment; filename=venues.csv'
+    #create a CSV WRITER
+    writer = csv.writer(response)
+    # Designate the model
+    venues = Venue.objects.all()
+    #add columns headings to the csv file
+    writer.writerow(['Venue name', 'Address', 'Zip code', 'Phone', 'Web Address', 'Email'])
+    for venue in venues:
+        writer.writerow([venue, venue.address, venue.zip_code, venue.phone, venue.web, venue.email_address])
+    return response
+
+#generate text file venue list
+def venue_text(request):
+    response = HttpResponse(content_type='text/plain')
+    response['Contnt-Disposition'] = 'attachment; filename=venues.txt'
+    # Designate the model
+    venues = Venue.objects.all()
+    lines = []
+    for venue in venues:
+        lines.append(f'{venue}\n {venue.address}\n {venue.zip_code}\n {venue.phone}\n {venue.web}\n {venue.email_address}\n\n\n')
+    #write to text file
+    response.writelines(lines)
+    return response
 
 def delete_venue(request, venue_id):
     venue = Venue.objects.get(pk=venue_id)
@@ -89,7 +163,7 @@ def add_venue(request):
     return render(request, 'events/add_venue.html', {'form': form, 'submitted': submitted})
 
 def all_events(request):
-    event_list = Event.objects.all()
+    event_list = Event.objects.all().order_by('event_date')
     return render(request, 'events/event_list.html', {
         "event_list": event_list
     })
