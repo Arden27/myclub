@@ -12,7 +12,7 @@
             {{ event.name }}
             </div>
             <div class="card-body">
-                <ul>
+                <ul class="no-bullets">
                     <li><h5 class="card-title"></h5>Venue: {{ event.venue }}</h5></li>
                     <li>Date: {{ event.event_date }}</li>
                     <li>Venue Website: {{ event.venue.web}}</li>
@@ -29,6 +29,7 @@
             </div>
             <div class="card-footer text-muted">
                 <a href="{% url 'update-event' event.id %}" class="btn btn-outline-secondary btn-sm">Update</a>
+                <a href="{% url 'delete-event' event.id %}" class="btn btn-outline-danger btn-sm">Delete</a>
             </div>
         </div>
         
