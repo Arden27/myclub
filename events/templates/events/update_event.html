@@ -3,14 +3,18 @@
 {% block content %}
 
     <center>
-    <h1>Update Event </h1>
-        <br>
-        <form action="" method=POST>
-            {% csrf_token %}
-            {{ form.as_p }}
+    {% if user.is_authenticated %}
+        <h1>Update Event </h1>
             <br>
-            <input type="submit" value="'Update" class="btn btn-secondary">
-        </form>
+            <form action="" method=POST>
+                {% csrf_token %}
+                {{ form.as_p }}
+                <br>
+                <input type="submit" value="'Update" class="btn btn-secondary">
+            </form>
+    {% else %}
+        <p>Ooops! <a href="{% url 'login' %}">Login</a>  to wiev this page!</p>
+    {% endif %} 
     </center>
 
 {% endblock %}

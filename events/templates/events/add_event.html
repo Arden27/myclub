@@ -3,19 +3,23 @@
 {% block content %}
 
     <center>
-        <p>Add Event</p>
-        <br><br>
-        {% if submitted %}
+        {% if user.is_authenticated %}
+            <p>Add Event</p>
+            <br><br>
+            {% if submitted %}
 
-            <p> Your Event was submitted succefully!!!</p>
+                <p> Your Event was submitted succefully!!!</p>
 
+            {% else %}
+
+                <form class="mx-auto" style="width: 200px;" action="" method=POST>
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <input type="submit" value="Submit" class="btn btn-secondary">
+                </form> 
+            {% endif %}
         {% else %}
-
-            <form class="mx-auto" style="width: 200px;" action="" method=POST>
-                {% csrf_token %}
-                {{ form.as_p }}
-                <input type="submit" value="Submit" class="btn btn-secondary">
-            </form> 
+            <p>Ooops! <a href="{% url 'login' %}">Login</a>  to wiev this page!</p>
         {% endif %}
     </center>
 

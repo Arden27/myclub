@@ -2,9 +2,7 @@
 
 
 {% block content %}
-<div class="dupa">
     <h1>Events</h1>
-</div>
     
     {% for event in event_list %}
         <div class="card text-center">
@@ -27,10 +25,12 @@
                 </ul>
             <p class="card-text">Description: {{ event.description }}</p>
             </div>
-            <div class="card-footer text-muted">
-                <a href="{% url 'update-event' event.id %}" class="btn btn-outline-secondary btn-sm">Update</a>
-                <a href="{% url 'delete-event' event.id %}" class="btn btn-outline-danger btn-sm">Delete</a>
-            </div>
+            {% if user.is_authenticated %}
+                <div class="card-footer text-muted">
+                    <a href="{% url 'update-event' event.id %}" class="btn btn-outline-secondary btn-sm">Update</a>
+                    <a href="{% url 'delete-event' event.id %}" class="btn btn-outline-danger btn-sm">Delete</a>
+                </div>
+            {% endif %}
         </div>
         
     {% endfor %}

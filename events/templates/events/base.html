@@ -13,10 +13,12 @@
     <link rel="stylesheet" href="../static/events/style.css">
 
     <title>starter</title>
+    <style>
+      body {background: #f4f4f4;}
+    </style>
   </head>
   <body>
     {% include 'events/navbar.html' %}
-    <br>
     {% if messages %}
       {% for message in messages %}
         <div class="alert alert-warning alert-dismissible fade show" role="alert">
@@ -25,9 +27,10 @@
         </div>
       {% endfor %}
     {% endif %}
-    {% block content %}
-    {% endblock %}
-
+    <div class="dupa">
+      {% block content %}
+      {% endblock %}
+    </div>
     <!-- Optional JavaScript; choose one of the two! -->
 
     <!-- Option 1: Bootstrap Bundle with Popper -->
