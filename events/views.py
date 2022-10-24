@@ -20,6 +20,17 @@ from django.core.paginator import Paginator
 
 from django.contrib import messages
 
+def my_events(request):
+    if request.user.is_authenticated:
+        me = request.user.id
+        events = Event.objects.filter(attendees=me)
+        return render(request, 'events/my_events.html', {
+            'events': events,
+        })
+    else:
+        messages.success(request, 'Login to wiev this page')
+        return redirect('login')
+
 #Generate PDF
 def venue_pdf(request):
     #create Bytestream buffer
