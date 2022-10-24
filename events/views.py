@@ -151,7 +151,6 @@ def add_event(request):
             submitted = True
     return render(request, 'events/add_event.html', {'form': form, 'submitted': submitted})
 
-
 def update_venue(request, venue_id):
     venue = Venue.objects.get(pk=venue_id)
     form = VenueForm(request.POST or None, instance=venue)
@@ -162,6 +161,17 @@ def update_venue(request, venue_id):
         "venue": venue,
         'form': form,
     })
+    
+def search_events(request):
+    if request.method == 'POST':
+        searched = request.POST['searched']
+        events = Event.objects.filter(name__contains=searched)
+        return render(request, 'events/search_events.html', {
+                'searched': searched,
+                'events': events,
+            })
+    else:
+        return render(request, 'events/search_events.html', {})
 
 def search_venues(request):
     if request.method == 'POST':
