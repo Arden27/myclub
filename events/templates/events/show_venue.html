@@ -16,6 +16,10 @@
           <a href="{{ venue.web }}">{{ venue.web }}</a> <br>
           <h6 class="card-text"> Owner: {{ venue_owner }} ({{ venue_owner.first_name }} {{ venue_owner.last_name }})</h6>
           <h6 class="card-text"> {{ venue_owner.email }}</h6>
+          {% if venue.venue_image %}
+            <img src="{{ venue.venue_image.url }}" alt="" width="200">
+          {% endif %}
+          <br>
           <a href="{% url 'list-venues' %}" class="btn btn-primary">back</a>
         </div>
       </div>

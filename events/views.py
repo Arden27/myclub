@@ -153,7 +153,7 @@ def add_event(request):
 
 def update_venue(request, venue_id):
     venue = Venue.objects.get(pk=venue_id)
-    form = VenueForm(request.POST or None, instance=venue)
+    form = VenueForm(request.POST or None, request.FILES or None, instance=venue)
     if form.is_valid():
         form.save()
         return redirect('list-venues')
@@ -161,7 +161,7 @@ def update_venue(request, venue_id):
         "venue": venue,
         'form': form,
     })
-    
+
 def search_events(request):
     if request.method == 'POST':
         searched = request.POST['searched']
@@ -209,7 +209,7 @@ def list_venues(request):
 def add_venue(request):
     submitted = False
     if request.method == 'POST':
-        form = VenueForm(request.POST)
+        form = VenueForm(request.POST, request.FILES)
         if form.is_valid():
             venue = form.save(commit=False) # make a form but dont save
             venue.owner = request.user.id # logged in user
@@ -228,7 +228,9 @@ def all_events(request):
     })
 
 def home(request, year=datetime.now().year, month=datetime.now().strftime('%B')):
-    name = "Artem"
+    name = ""
+    if request.user.is_authenticated:
+        name = f", {request.user}"
     month = month.capitalize()
     #convert month from name to number
     month_number = list(calendar.month_name).index(month)
@@ -236,6 +238,11 @@ def home(request, year=datetime.now().year, month=datetime.now().strftime('%B'))
     #get current year
     now = datetime.now()
     current_year = now.year
+
+    event_list = Event.objects.filter(
+        event_date__year = year,
+        event_date__month = month_number,
+    )
     #get current time
     time = now.strftime('%I:%M %p')
     #create calendar
@@ -248,6 +255,5 @@ def home(request, year=datetime.now().year, month=datetime.now().strftime('%B'))
         'cal': cal,
         "current_year": current_year,
         'time': time,
+        'event_list': event_list,
     })
-
-# Create your views here.

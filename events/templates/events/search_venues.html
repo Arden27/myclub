@@ -4,9 +4,28 @@
 
     <center>
         {% if searched %}
-            <h1>You Searched For {{ searched }}</h1>
+            <h1>You Searched For "{{ searched }}"</h1>
             {% for venue in venues %}
-                <a href="{% url 'show-venue' venue.id %}">{{ venue }}</a> <br> 
+            <div class="card">
+                <div class="card-header">
+                    <h3>{{ venue }}:</h3>
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">{{ venue.address }}</h5>
+                    <h6 class="card-text">{{ venue.zip_code }}</h6>
+                    {% if venue.phone %}
+                        <h6 class="card-text"> {{ venue.phone }} </h6>
+                    {% endif %}
+                    {% if venue.email_address %}
+                        <h6 class="card-text"> {{ venue.email_address }}</h6>
+                    {% endif %}
+                    {% if venue.web %}
+                        <h6 class="card-text"><a href="{{ venue.web }}">{{ venue.web }}</a></h6>
+                    {% endif %}
+                    <h6 class="card-text"> Owner ID: {{ venue.owner }}</h6>
+                </div>
+              </div>
+              <br>
             {% endfor %}
 
         {% else %}
