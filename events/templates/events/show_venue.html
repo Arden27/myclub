@@ -14,6 +14,8 @@
           <h6 class="card-text"> {{ venue.phone }} </h6>
           <h6 class="card-text"> {{ venue.email_address }}</h6>
           <a href="{{ venue.web }}">{{ venue.web }}</a> <br>
+          <h6 class="card-text"> Owner: {{ venue_owner }} ({{ venue_owner.first_name }} {{ venue_owner.last_name }})</h6>
+          <h6 class="card-text"> {{ venue_owner.email }}</h6>
           <a href="{% url 'list-venues' %}" class="btn btn-primary">back</a>
         </div>
       </div>

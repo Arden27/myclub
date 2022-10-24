@@ -5,7 +5,7 @@
     <center>
         {% if user.is_authenticated %}
             <h1>Add Venue to Database</h1>
-            <br><br>
+            <br><br> your id: {{ user.id }}
             {% if submitted %}
 
                 <p> Your venue was submitted succefully!!!</p>
