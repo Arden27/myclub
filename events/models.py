@@ -1,5 +1,7 @@
+from email.policy import default
 from django.db import models
 from django.contrib.auth.models import User
+from datetime import date
 
 # Create your models here.
 
@@ -33,6 +35,22 @@ class Event(models.Model):
     manager = models.ForeignKey(User, blank=True, null=True, on_delete=models.SET_NULL)
     description = models.TextField(blank=True)
     attendees = models.ManyToManyField(User, related_name='attendees', blank=True)
+    approved = models.BooleanField('Approved', default=False)
 
     def __str__(self):
         return self.name
+
+    @property
+    def Days_till(self):
+        today = date.today()
+        days_till = str(self.event_date.date() - today).split(',', 1)[0]
+        return days_till
+
+    @property
+    def Is_past(self):
+        today = date.today()
+        if self.event_date.date() < today:
+            thing = "Past"
+        else:
+            thing = 'Future'
+        return thing

@@ -23,6 +23,9 @@
               <li><a class="dropdown-item" href="{% url 'add-event' %}">Add Event</a></li> 
               <li><a class="dropdown-item" href="{% url 'my-events' %}">My Events</a></li> 
               {% endif %} 
+              {% if user.is_superuser %}
+              <li><a class="dropdown-item" href="{% url 'admin-approval' %}">Approve</a></li> 
+              {% endif %} 
               <li><a class="dropdown-item" href="{% url 'search-events' %}">Search</a></li> 
             </ul>
           </li>

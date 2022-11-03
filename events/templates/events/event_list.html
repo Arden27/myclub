@@ -5,36 +5,40 @@
     <h1>Events</h1>
     
     {% for event in event_list %}
-        <div class="card text-center">
-            <div class="card-header">
-            {{ event.name }}
-            </div>
-            <div class="card-body">
-                <ul class="no-bullets">
-                    <li><h5 class="card-title"></h5>Venue: {{ event.venue }}</h5></li>
-                    <li>Date: {{ event.event_date }}</li>
-                    <li>Venue Website: {{ event.venue.web}}</li>
-                    <li>Phone: {{ event.venue.phone}}</li>
-                    <li>Manager: {{ event.manager }}</li>
-                    <li> Attendees: 
-                        <ul>
-                            {% for user in event.attendees.all %}
-                            <li>{{ user }}</li>
-                            {% endfor %}
+        {% if event.approved %}
+            <div class="card text-center">
+                <div class="card-header">
+                <h3> {{ event.name }}</h3>
+                </div>
+                <div class="card-body">
+                    <ul class="no-bullets">
+                        <li><h5 class="card-title">Venue: {{ event.venue }}</h5></li>
+                        <li>Date: {{ event.event_date }}</li>
+                        <li>Days till Event: {{ event.Days_till }}</li>
+                        <li>Occured: {{ event.Is_past }}</li>
+                        <li>Venue Website: {{ event.venue.web}}</li>
+                        <li>Phone: {{ event.venue.phone}}</li>
+                        <li>Manager: {{ event.manager }}</li>
+                        <li> Attendees: 
+                            <ul>
+                                {% for user in event.attendees.all %}
+                                <li>{{ user }}</li>
+                                {% endfor %}
+                        </ul>
                     </ul>
-                </ul>
-            <p class="card-text">Description: {{ event.description }}</p>
-            </div>
-            {% if user.is_authenticated %}
-                {% if user == event.manager %}
-                    <div class="card-footer text-muted">
-                        <a href="{% url 'update-event' event.id %}" class="btn btn-outline-secondary btn-sm">Update</a>
-                        <a href="{% url 'delete-event' event.id %}" class="btn btn-outline-danger btn-sm">Delete</a>
-                    </div>
+                <p class="card-text">Description: {{ event.description }}</p>
+                <p class="card-text">Approved: {{ event.approved }}</p>
+                </div>
+                {% if user.is_authenticated %}
+                    {% if user == event.manager %}
+                        <div class="card-footer text-muted">
+                            <a href="{% url 'update-event' event.id %}" class="btn btn-outline-secondary btn-sm">Update</a>
+                            <a href="{% url 'delete-event' event.id %}" class="btn btn-outline-danger btn-sm">Delete</a>
+                        </div>
+                    {% endif %}
                 {% endif %}
-            {% endif %}
-        </div>
-        
+            </div>
+        {% endif %}
     {% endfor %}
     
     
